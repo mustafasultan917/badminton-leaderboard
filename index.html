@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🏸 Badminton Leaderboard</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f0f8ff; text-align: center; }
+    h1 { color: #007acc; }
+    table { border-collapse: collapse; width: 100%; max-width: 600px; margin: 0 auto; }
+    th, td { border: 1px solid #ccc; padding: 10px; }
+    th { background: #007acc; color: white; }
+    td { background: #f9f9f9; }
+    button { padding: 5px 10px; margin: 2px; border: none; border-radius: 5px; }
+    button.win { background: #4caf50; color: white; }
+    button.loss { background: #f44336; color: white; }
+    button.reset { background: #ff9800; color: white; margin-top: 10px; }
+    @media (max-width: 600px) {
+      table, th, td { font-size: 14px; }
+      button { padding: 3px 6px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🏸 Badminton Leaderboard</h1>
+  <table id="leaderboard">
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th>🏆 Wins</th>
+        <th>💔 Losses</th>
+        <th>Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Mustafa</td><td><span id="Mustafa-wins">0</span></td><td><span id="Mustafa-losses">0</span></td>
+        <td>
+          <button class="win" onclick="updateScore('Mustafa', 'win')">+W</button>
+          <button class="loss" onclick="updateScore('Mustafa', 'loss')">+L</button>
+        </td>
+      </tr>
+      <tr><td>Ahmed</td><td><span id="Ahmed-wins">0</span></td><td><span id="Ahmed-losses">0</span></td>
+        <td>
+          <button class="win" onclick="updateScore('Ahmed', 'win')">+W</button>
+          <button class="loss" onclick="updateScore('Ahmed', 'loss')">+L</button>
+        </td>
+      </tr>
+      <tr><td>Huda</td><td><span id="Huda-wins">0</span></td><td><span id="Huda-losses">0</span></td>
+        <td>
+          <button class="win" onclick="updateScore('Huda', 'win')">+W</button>
+          <button class="loss" onclick="updateScore('Huda', 'loss')">+L</button>
+        </td>
+      </tr>
+      <tr><td>Sara</td><td><span id="Sara-wins">0</span></td><td><span id="Sara-losses">0</span></td>
+        <td>
+          <button class="win" onclick="updateScore('Sara', 'win')">+W</button>
+          <button class="loss" onclick="updateScore('Sara', 'loss')">+L</button>
+        </td>
+      </tr>
+      <tr><td>Ali</td><td><span id="Ali-wins">0</span></td><td><span id="Ali-losses">0</span></td>
+        <td>
+          <button class="win" onclick="updateScore('Ali', 'win')">+W</button>
+          <button class="loss" onclick="updateScore('Ali', 'loss')">+L</button>
+        </td>
+      </tr>
+      <tr><td>Yasmin</td><td><span id="Yasmin-wins">0</span></td><td><span id="Yasmin-losses">0</span></td>
+        <td>
+          <button class="win" onclick="updateScore('Yasmin', 'win')">+W</button>
+          <button class="loss" onclick="updateScore('Yasmin', 'loss')">+L</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="reset" onclick="resetScores()">🔄 Reset All</button>
+
+  <script>
+    let scores = {
+      "Mustafa": { wins: 0, losses: 0 },
+      "Billy": { wins: 0, losses: 0 },
+      "Naeem": { wins: 0, losses: 0 },
+      "Asil": { wins: 0, losses: 0 },
+      "Saleem": { wins: 0, losses: 0 },
+      "Badaam": { wins: 0, losses: 0 }
+    };
+
+    function updateScore(player, type) {
+      scores[player][type + "s"]++;
+      updateDisplay(player);
+      saveScores();
+    }
+
+    function updateDisplay(player) {
+      document.getElementById(`${player}-wins`).innerText = scores[player].wins;
+      document.getElementById(`${player}-losses`).innerText = scores[player].losses;
+    }
+
+    function saveScores() {
+      localStorage.setItem("badmintonScores", JSON.stringify(scores));
+    }
+
+    function loadScores() {
+      const saved = JSON.parse(localStorage.getItem("badmintonScores"));
+      if (saved) {
+        scores = saved;
+        for (const player in scores) {
+          updateDisplay(player);
+        }
+      }
+    }
+
+    function resetScores() {
+      for (const player in scores) {
+        scores[player].wins = 0;
+        scores[player].losses = 0;
+        updateDisplay(player);
+      }
+      saveScores();
+    }
+
+    loadScores();
+  </script>
+</body>
+</html>
